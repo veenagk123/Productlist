@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JSON Data Display Example</title>
+  </head>
+  <body>
+    <div id="json-data">
+       hey 
+    </div>
+
+    <script>
+      fetch('http://localhost/data/products.json')
+        .then(response => response.json())
+        .then(data => {
+          // Create a table element and set the table headers
+          const table = document.createElement('table');
+          const headers = ['ID', 'Title', 'Price'];
+          const headerRow = document.createElement('tr');
+          headers.forEach(headerText => {
+            const header = document.createElement('th');
+            const textNode = document.createTextNode(headerText);
+            header.appendChild(textNode);
+            headerRow.appendChild(header);
+          });
+          table.appendChild(headerRow);
+
+          // Add the JSON data to the table rows
+          data.products.forEach(product => {
+            const row = document.createElement('tr');
+            const idCell = document.createElement('td');
+            const idText = document.createTextNode(product.id);
+            idCell.appendChild(idText);
+            row.appendChild(idCell);
+            const titleCell = document.createElement('td');
+            const titleText = document.createTextNode(product.title);
+            titleCell.appendChild(titleText);
+            row.appendChild(titleCell);
+            const priceCell = document.createElement('td');
+            const priceText = document.createTextNode(product.price);
+            priceCell.appendChild(priceText);
+            row.appendChild(priceCell);
+            table.appendChild(row);
+          });
+
+          // Add the table to the container element
+          const jsonDataContainer = document.getElementById('json-data');
+          jsonDataContainer.appendChild(table);
+        })
+        .catch(error => console.error(error));
+    </script>
+  </body>
+</html>
